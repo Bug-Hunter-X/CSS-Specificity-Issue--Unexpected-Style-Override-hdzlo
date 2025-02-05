@@ -1,0 +1,19 @@
+The following CSS code snippet demonstrates an uncommon issue where specificity conflicts cause unexpected styling behavior.  The `id` selector has higher specificity than the class selector, but the more general class selector applied later in the stylesheet overrides the ID selector's styling unexpectedly.
+
+```css
+#myElement {
+  color: blue;
+}
+
+.myElement {
+  color: red;
+}
+
+#myElement.myElement {
+  color: green; /* This style should override, but might not due to unexpected CSS behavior */
+}
+```
+
+The element with both the ID `myElement` and the class `myElement` may unexpectedly render with red text (from `.myElement`), not green (from `#myElement.myElement`).  This can happen if the browser encounters the `.myElement` rule *after* the `#myElement.myElement` rule, even if both are within the same stylesheet.  Some browsers might handle this differently due to how they parse and interpret cascaded stylesheets, causing inconsistencies.
+
+This violates the expected specificity rules where an id selector (`#myElement`) would always override a class selector (`.myElement`). 
